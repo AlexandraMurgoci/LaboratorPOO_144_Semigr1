@@ -64,7 +64,6 @@ Complex operator* (Complex c1, Complex c2)
     return result;
 }
 
-//TODO: citim n obiecte, memoram si afisam
 Complex* readNComplexNumbers()
 {
     std::cout << "Number of complex numbers to read:" << std::endl;

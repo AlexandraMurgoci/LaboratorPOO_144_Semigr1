@@ -39,7 +39,7 @@ public:
 
     //TODO operator /
     //TEMA
-
+    friend Complex operator/ (Complex c1, Complex c2);
 
     friend std::istream& operator>>(std::istream& in, Complex& complex)
     {
@@ -54,7 +54,13 @@ public:
         return out;
     }
 };
-
+Complex operator/ (Complex c1, Complex c2)
+{
+    Complex result;
+    result.m_real = (c1.m_real*c1.m_real + c1.m_imaginary*c2.m_imaginary)/(c2.m_real*c2.m_real-c2.m_imaginary*c2.m_imaginary);
+    result.m_imaginary = (c1.m_imaginary*c2.m_real - c1.m_real*c2.m_imaginary)/(c2.m_real*c2.m_real-c2.m_imaginary*c2.m_imaginary);
+    return result;
+}
 Complex operator* (Complex c1, Complex c2)
 {
     // (a + bi)(c + di) = ac - bd + i(ad + bc)

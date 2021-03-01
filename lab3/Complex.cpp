@@ -37,7 +37,7 @@ public:
 
     friend Complex operator* (Complex c1, Complex c2);
 
-    //TODO operator /
+    friend Complex operator/ (Complex c1, Complex c2);
     //TEMA
 
 
@@ -61,6 +61,14 @@ Complex operator* (Complex c1, Complex c2)
     Complex result;
     result.m_real = c1.m_real * c2.m_real - c1.m_imaginary * c2.m_imaginary;
     result.m_imaginary = c1.m_real * c2.m_imaginary + c1.m_imaginary * c2.m_real;
+    return result;
+}
+
+Complex operator/ (Complex c1, Complex c2)
+{
+    Complex result;
+    result.m_real=(c1.m_real*c2.m_real+c1.m_imaginary*c2.m_imaginary)/(c2.m_real*c2.m_real-c2.m_imaginary*c2.m_imaginary);
+    result.m_imaginary=(c1.real*c2.m_imaginary+c2.m_real*c1.m_imaginary)/(c2.m_real*c2.m_real-c2.m_imaginary*c2.m_imaginary);
     return result;
 }
 

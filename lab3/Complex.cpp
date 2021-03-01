@@ -1,5 +1,13 @@
 #include <iostream>
 #include <cmath>
+using namespace std;
+
+//Complex(){} s.n. constructorul default
+
+class Complex {
+    double m_real, m_imaginar;
+#include <iostream>
+#include <cmath>
 
 class Complex
 {
@@ -37,7 +45,9 @@ public:
 
     friend Complex operator* (Complex c1, Complex c2);
 
-    //TODO operator /
+    //operator /
+    friend Complex operator/ (Complex c1, Complex c2);
+
     //TEMA
 
 
@@ -61,6 +71,15 @@ Complex operator* (Complex c1, Complex c2)
     Complex result;
     result.m_real = c1.m_real * c2.m_real - c1.m_imaginary * c2.m_imaginary;
     result.m_imaginary = c1.m_real * c2.m_imaginary + c1.m_imaginary * c2.m_real;
+    return result;
+}
+
+Complex operator/ (Complex c1, Complex c2)
+{
+    Complex result;
+    result.m_real = (c1.m_real * c2.m_real + c1.m_imaginar * c2.m_imaginar) / (c2.m_real * c2.m_real + c2.m_imaginar * c2.m_imaginar);
+    result.m_imaginar = (c1.m_imaginar * c2.m_real - c1.m_real * c2.m_imaginar) / (c2.m_real * c2.m_real + c2.m_imaginar * c2.m_imaginar);
+
     return result;
 }
 

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-
+using namespace std;
 class Complex
 {
     double m_real;
@@ -34,11 +34,20 @@ public:
         Complex result(m_real + complex.m_real, m_imaginary + complex.m_imaginary);
         return result;
     }
+    Complex operator /(Complex c){
+        double real = c.GetReal();
+        double imaginar = c.GetImaginary();
+        double numitor_rationalizat = real*real+imaginar*imaginar;
 
+        c.SetImaginary(-c.GetImaginary());
+        double numarator_rationalizat_real=c.GetReal() * m_real - c.GetImaginary() * m_imaginary;
+        double numaratot_rationalizat_imaginar = c.GetReal() * m_imaginary + c.GetImaginary() * m_real;
+
+        Complex result(numarator_rationalizat_real/numitor_rationalizat,numaratot_rationalizat_imaginar/numitor_rationalizat);
+        return result;
+    }
     friend Complex operator* (Complex c1, Complex c2);
 
-    //TODO operator /
-    //TEMA
 
 
     friend std::istream& operator>>(std::istream& in, Complex& complex)
@@ -48,9 +57,18 @@ public:
     }
     friend std::ostream& operator<<(std::ostream& out, Complex& complex)
     {
-        //TEMA
-        //TODO: afisare comform enunt a, i*a, etc.
-        out << complex.m_real << " " << complex.m_imaginary;
+        if(complex.m_real==0 && complex.m_imaginary==0){
+            out<<0<<" ";
+        }
+        else if(complex.m_real==0 && complex.m_imaginary!=0){
+            out<<complex.m_imaginary<<"i ";
+        }
+        else if(complex.m_real!=0 && complex.m_imaginary==0){
+            out<<complex.m_real<<" ";
+        }
+        else{
+            out << complex.m_real << " " << complex.m_imaginary<<"i ";
+        }
         return out;
     }
 };
@@ -72,18 +90,13 @@ int main() {
 //    double real, imaginary;
 //    std::cin >> real >> imaginary;
 //    Complex complex(real, imaginary);
-    Complex complex;
-    std::cin >> complex;
-    std::cout << complex.GetReal() << " " << complex.GetImaginary() << std::endl;
-
-    Complex complex2(complex);
-//    std:: cout << complex2.Abs();
+    Complex c(2,1);
+    Complex c2(2,0);
     Complex c3;
-    c3 = complex + complex2;
-    std::cout << c3.GetReal() << " " << c3.GetImaginary() << std::endl;
-    Complex c4;
-    c4 = complex * c3;
-    std::cout << c4 <<std::endl;
+    cout<<c;
+    c3=c/c2;
+    cout<<c3;
+
     return 0;
 }
 

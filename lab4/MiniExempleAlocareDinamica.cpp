@@ -91,6 +91,42 @@ void DemoDynamic()
     d2.Display();
 }
 
+class StaticVector {
+    int m_size;
+    int m_vector[100];
+
+public:
+    StaticVector(int size, int initialValue)
+    {
+        m_size = size;
+        for(int i=0;i<m_size;i++) m_vector[i]=initialValue;
+    }
+
+    void Display()
+    {
+        for(int i=0;i<m_size;i++) std::cout << m_vector[i] << ' ';
+    }
+
+    bool ReplaceAt(int index, int value)
+    {
+        if(index >= m_size || index < 0) return false;
+        m_vector[index] = value;
+        return true;
+    }
+};
+
+void DemoStaticVector()
+{
+    StaticVector v1(3, 0);
+    StaticVector v2(v1);
+
+    v1.ReplaceAt(1, 5);
+
+    v1.Display();
+    std::cout << std::endl;
+    v2.Display();
+}
+
 void DemoDeleteNodes()
 {
     //ce se intampla daca facem delete in destructor la Node ?
@@ -134,6 +170,7 @@ void A::metoda() {
 
 int main() {
 //    DemoDynamic();
+//    DemoStaticVector();
 //    DemoDeleteNodes();
 //    DemoRand();
     return 0;

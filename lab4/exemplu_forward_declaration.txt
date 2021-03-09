@@ -1,0 +1,67 @@
+//declari ca exista o clasa de tip B, ca sa o poti folosi ca tip in clasa A
+class B;
+
+class A {
+    int m_x;
+public:
+    A():m_x(0){}
+    int GetX() {return m_x;}
+    void SetX(int x) {this->m_x = x;}
+    //aici ai vrea sa faci ceva cu o metoda declarata in B; in acest moment, insa, nu stii nimic despre clasa B (ce metode expune)
+    //de aceea doar declari metoda, si o implementezi dupa ce definesti clasa B
+    void executeSomethingWithCopyOfB(B b);
+    void executeSomethingWithReference(B &b);
+    void executeSomethingWithPointer(B *b);
+};
+
+class B {
+    A m_vector[2];
+public:
+    A GetValueAtPosition(int i) {return m_vector[i];}
+    void ModifyValueAtPosition(int i) {
+        A a; a.SetX(1);
+        m_vector[i] = a;
+    }
+};
+
+void A::executeSomethingWithCopyOfB(B b) {
+    b.ModifyValueAtPosition(1);
+    std::cout << b.GetValueAtPosition(1).GetX();
+}
+void A::executeSomethingWithReference(B &b) {
+    b.ModifyValueAtPosition(1);
+    std::cout << b.GetValueAtPosition(1).GetX();
+}
+void A::executeSomethingWithPointer(B *b) {
+    b->ModifyValueAtPosition(1);
+    std::cout << b->GetValueAtPosition(1).GetX();
+}
+
+int main()
+{
+    //remarca diferenta in comportament intre trasmiterea prin valoare si transmiterea prin referinta sau pointer
+    
+    std::cout << "Folosind transmiterea prin valoare:" << std::endl;
+    B b1;
+    b1.GetValueAtPosition(1).executeSomethingWithCopyOfB(b1);
+    std::cout << std::endl;
+    std::cout << b1.GetValueAtPosition(1).GetX();
+
+    std::cout << std::endl;
+
+    std::cout << "Folosind transmiterea prin referinta:" << std::endl;
+    B b2;
+    b2.GetValueAtPosition(1).executeSomethingWithReference(b2);
+    std::cout << std::endl;
+    std::cout << b2.GetValueAtPosition(1).GetX();
+
+    std::cout << std::endl;
+
+    std::cout << "Folosind transmiterea prin pointer:" << std::endl;
+    B b3;
+    b3.GetValueAtPosition(1).executeSomethingWithPointer(&b3);
+    std::cout << std::endl;
+    std::cout << b3.GetValueAtPosition(1).GetX();
+
+    return 0;
+}

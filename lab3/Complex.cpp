@@ -17,6 +17,13 @@ public:
     Complex(Complex &complex)
             : m_real(complex.m_real), m_imaginary(complex.m_imaginary) {}
     ~Complex() {}
+    
+    Complex& operator=(const Complex& complex)
+    {
+        m_real = complex.m_real;
+        m_imaginary = complex.m_imaginary;
+        return *this;
+    }
 
     // Getteri
     double GetReal() { return m_real; }
@@ -141,6 +148,13 @@ void demoPentruAfisareSiImpartire() {
     std::cout << "c1 / c4 = " << res;
 }
 
+void DemoOperatorAtribuire() {
+    Complex c1(1);
+    Complex c2(5,7);
+    c1 = c2;
+    std::cout << c1;
+}
+
 void printMenuOptions() {
     std::cout << "1. Cititi, memorati si afisati n numere complexe." << std::endl;
     std::cout << "2. Rulati demo pentru afisare si impartire." << std::endl;
@@ -205,6 +219,7 @@ int main() {
 
 
     interactiveMenu();
+    // DemoOperatorAtribuire();
 
     return 0;
 }

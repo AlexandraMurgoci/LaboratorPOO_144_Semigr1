@@ -6,6 +6,7 @@ using namespace std;
 
 class Forma
 {
+    static const double S_MAX_INALTIME;
 protected:
     double m_inaltime;
 public:
@@ -29,6 +30,7 @@ public:
     virtual void Citire()
     {
         cin >> m_inaltime;
+        if(m_inaltime > S_MAX_INALTIME) {cout << "Inaltime invalida!" << endl;}
     }
 
     //metoda pura => clasa devine abstracta
@@ -37,7 +39,13 @@ public:
 
     double Volum()
     {
-        return m_inaltime * Aria();
+//        return m_inaltime * Aria();
+        return Volum(m_inaltime, Aria());
+    }
+
+    static double Volum(double inaltime, double ariaBazei)
+    {
+        return inaltime * ariaBazei;
     }
 
     double Suprafata()
@@ -56,15 +64,21 @@ public:
         //TODO: implementeaza cu suprafata
         return Volum();
     }
+    virtual ~Forma(){}
 };
+
+const double S_MAX_INALTIME = 10;
 
 class Cerc: public Forma
 {
     double m_raza;
+    static int s_nr_cercuri;
 public:
-    Cerc():m_raza(0) {}
-    Cerc(double inaltime, double raza): Forma(inaltime), m_raza(raza){}
+    Cerc():m_raza(0) {s_nr_cercuri++;}
+    Cerc(double inaltime, double raza): Forma(inaltime), m_raza(raza){s_nr_cercuri++;}
+    Cerc(const Cerc &cerc): m_raza(cerc.m_raza), Forma(cerc.m_inaltime) {s_nr_cercuri++;}
     double GetRaza(){return m_raza;}
+    static int GetNrCercuri() {return s_nr_cercuri;}
 
     void Afisare()
     {
@@ -83,7 +97,9 @@ public:
     {
         return M_PI * m_raza * m_raza;
     }
+    ~Cerc(){s_nr_cercuri--;}
 };
+int Cerc::s_nr_cercuri = 0;
 
 class Dreptunghi: public Forma
 {
@@ -211,7 +227,7 @@ void meniuInteractiv()
     vector<Forma*> formeleBunicutei = citesteCeleNFormeInitiale();
 
     int comanda = 0;
-    int comanda_stop = 5;
+    int comanda_stop = 6;
 
     while (comanda != comanda_stop)
     {
@@ -247,6 +263,10 @@ void meniuInteractiv()
             for(int i=0; i < formeleBunicutei.size(); i++) formeleBunicutei[i] -> Afisare();
             cout << endl;
         }
+        else if(comanda == 5)
+        {
+            cout << "Numar cercuri in program: " << Cerc::GetNrCercuri() << endl;
+        }
     }
 
     for(int i=0; i < formeleBunicutei.size(); i++) delete formeleBunicutei[i];
@@ -270,8 +290,25 @@ void demo()
     }
 }
 
+class DemoStaticVariable
+{
+public:
+    DemoStaticVariable() {cout << "CI" << endl;}
+    ~DemoStaticVariable() {cout << "D" << endl;}
+};
+
 int main() {
 //    meniuInteractiv();
-    demo();
+//    demo();
+
+//memoria pentru variabilele statice persista pe toata viata programului
+//obiectul nu se distruge la iesirea din if {}
+    if(0 == 0)
+    {
+        static DemoStaticVariable obj;
+    }
+
+    cout << "Finalul programului" << endl;
+
     return 0;
 }
